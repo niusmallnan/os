@@ -74,10 +74,18 @@ func loadImages(cfg *config.CloudConfig, bootstrap bool) (*config.CloudConfig, e
 
 		// client.ImageLoad is an asynchronous operation
 		// To ensure the order of execution, use cmd instead of it
-		log.Infof("Loading images from %s", archive)
-		cmd := exec.Command("/usr/bin/system-docker", "load", "-q", "-i", archive)
+		tarfile := fmt.Sprintf("/tmp/%s", strings.Replace(filepath.Base(archive), ".zst", "", -1))
+		cmd := exec.Command("/usr/share/ros/zstd", "-d", "-o", tarfile, archive)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			log.Errorf("Failed to run zstd: %v", err)
+		}
+
+		log.Infof("Loading images from %s", tarfile)
+		cmd = exec.Command("/usr/bin/system-docker", "load", "-q", "-i", tarfile)
 		if out, err := cmd.CombinedOutput(); err != nil {
-			log.Fatalf("FATAL: Error loading images from %s (%v)\n%s ", archive, err, out)
+			log.Fatalf("FATAL: Error loading images from %s (%v)\n%s ", tarfile, err, out)
 		}
 
 		log.Infof("Done loading images from %s", archive)

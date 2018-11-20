@@ -14,4 +14,7 @@ export ARTIFACTS BUILD INITRD_DIR VERSION
 
 curl -sL ${!OS_INITRD_BASE_URL} | tar xzvf - -C ${INITRD_DIR}
 
+
+cp /usr/bin/zstd ${INITRD_DIR}/usr/share/ros/
+
 ./scripts/hash-initrd

@@ -3,8 +3,8 @@ set -ex
 
 INIT_DEP="rancher/os-bootstrap"
 SHARED_DEP="rancher/os-base"
-INIT_IMAGES_DST="build/images-init.tar"
-SYSTEM_IMAGES_DST="build/images-system.tar"
+INIT_IMAGES_DST="build/images-init.tar.zst"
+SYSTEM_IMAGES_DST="build/images-system.tar.zst"
 
 cd $(dirname $0)/..
 
@@ -35,14 +35,12 @@ echo "tar-image: SYSTEM_IMAGES=$SYSTEM_IMAGES"
 echo "tar-image: INIT_IMAGES=$INIT_IMAGES"
 
 if [ "$COMPRESS" == "" ]; then
-    ARCHIVE_CMD="gzip"
+    ARCHIVE_CMD="zstd -f"
 else
-    # system-docker can not load images which compressed by xz with a compression level of 9
-    # decompression consumes more memory if using level 9
-    # the default compression level for xz is 6
-    ARCHIVE_CMD="xz -4 -e"
+    ARCHIVE_CMD="zstd -19 -f"
 fi
 
-docker save ${INIT_IMAGES} | ${ARCHIVE_CMD} > ${INIT_IMAGES_DST}
-docker save ${SYSTEM_IMAGES} | ${ARCHIVE_CMD} > ${SYSTEM_IMAGES_DST}
+docker save ${INIT_IMAGES} | ${ARCHIVE_CMD} -o ${INIT_IMAGES_DST}
+docker save ${SYSTEM_IMAGES} | ${ARCHIVE_CMD} -o ${SYSTEM_IMAGES_DST}
+
 echo "tar-images: DONE"

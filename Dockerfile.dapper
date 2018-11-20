@@ -147,6 +147,9 @@ RUN curl -fL ${!BUILD_DOCKER_URL} > /usr/bin/docker && \
 RUN curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m | sed 's/arm.*/arm/'` > /usr/bin/dapper && \
     chmod +x /usr/bin/dapper
 
+RUN curl -sL https://github.com/niusmallnan/zstd/releases/download/v1.3.7-rancher/zstd-amd64 -o /usr/bin/zstd && \
+    chmod +x /usr/bin/zstd
+
 RUN cd ${DOWNLOADS} && \
     curl -pfL ${!OS_BASE_URL} | tar xvJf -
 

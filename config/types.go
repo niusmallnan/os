@@ -21,8 +21,8 @@ const (
 	SystemDockerHost = "unix:///var/run/system-docker.sock"
 	DockerHost       = "unix:///var/run/docker.sock"
 	ImagesPath       = "/usr/share/ros"
-	InitImages       = "images-init.tar"
-	SystemImages     = "images-system.tar"
+	InitImages       = "images-init.tar.zst"
+	SystemImages     = "images-system.tar.zst"
 	Debug            = false
 	SystemDockerBin  = "/usr/bin/system-dockerd"
 
