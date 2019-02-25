@@ -144,7 +144,7 @@ func installAction(c *cli.Context) error {
 	partition := c.String("partition")
 	statedir := c.String("statedir")
 	if statedir != "" && installType != "noformat" {
-		log.Fatal("--statedir %s requires --type noformat", statedir)
+		log.Fatalf("--statedir %s requires --type noformat", statedir)
 	}
 	if installType != "noformat" &&
 		installType != "raid" &&
@@ -556,7 +556,7 @@ func layDownOS(image, installType, cloudConfig, device, partition, statedir, kap
 		if err != nil {
 			return err
 		}
-		log.Debugf("upgrading - %s, %s, %s, %s", device, baseName, diskType)
+		log.Debugf("upgrading - %s, %s, %s", device, baseName, diskType)
 		// TODO: detect pv-grub, and don't kill it with syslinux
 		upgradeBootloader(device, baseName, diskType)
 	default:

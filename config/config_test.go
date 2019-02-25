@@ -174,11 +174,11 @@ func TestGet(t *testing.T) {
 	}
 
 	tests := map[string]interface{}{
-		"key": "value",
+		"key":                  "value",
 		"rancher.key2.subkey":  "subvalue",
 		"rancher.key2.subnum":  42,
 		"rancher.key2.subkey2": "",
-		"foo": "",
+		"foo":                  "",
 	}
 
 	for k, v := range tests {
@@ -217,7 +217,7 @@ func TestSet(t *testing.T) {
 	}
 
 	tests := map[string]interface{}{
-		"key": "value2",
+		"key":                  "value2",
 		"rancher.key2.subkey":  "subvalue2",
 		"rancher.key2.subkey2": "value",
 		"rancher.key2.subkey3": 43,
