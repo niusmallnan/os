@@ -29,3 +29,11 @@ UseDNS no
 PermitRootLogin no
 AllowGroups docker
 EOF
+
+
+# add zfs
+ZFS_DIR="/tmp/os-zfs/"
+rm -rf ./zfs
+mkdir -p ./zfs
+cp -rf ${ZFS_DIR}/* ./zfs/
+rm -rf ./zfs/usr/lib/modules
